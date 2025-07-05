@@ -3,8 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/storage_service.dart';
 
+typedef LocaleChangedCallback = void Function(String languageCode);
+
 class LanguageScreen extends StatefulWidget {
-  const LanguageScreen({Key? key}) : super(key: key);
+  final LocaleChangedCallback? onLocaleChanged;
+  const LanguageScreen({Key? key, this.onLocaleChanged}) : super(key: key);
 
   @override
   State<LanguageScreen> createState() => _LanguageScreenState();
@@ -59,7 +62,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
     setState(() {
       _selectedLanguage = languageCode;
     });
-    
+    if (widget.onLocaleChanged != null) {
+      widget.onLocaleChanged!(languageCode);
+    }
     // Show confirmation
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

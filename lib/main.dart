@@ -8,6 +8,7 @@ import 'screens/dashboard_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/logs_screen.dart';
 import 'models/gateway_config.dart';
+import 'services/storage_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
@@ -23,6 +24,12 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _currentLanguage = 'en';
+
+  void setLocale(String languageCode) {
+    setState(() {
+      _currentLanguage = languageCode;
+    });
+  }
 
   @override
   void initState() {
@@ -94,7 +101,7 @@ class _MyAppState extends State<MyApp> {
         initialRoute: '/',
         routes: {
           '/': (context) => const AppWrapper(),
-          '/settings': (context) => const SettingsScreen(),
+          '/settings': (context) => SettingsScreen(onLocaleChanged: setLocale),
           '/logs': (context) => const LogsScreen(),
         },
       ),

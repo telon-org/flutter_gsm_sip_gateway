@@ -7,8 +7,11 @@ import '../services/storage_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'language_screen.dart';
 
+typedef LocaleChangedCallback = void Function(String languageCode);
+
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  final LocaleChangedCallback? onLocaleChanged;
+  const SettingsScreen({Key? key, this.onLocaleChanged}) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -269,7 +272,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const LanguageScreen(),
+                          builder: (context) => LanguageScreen(onLocaleChanged: widget.onLocaleChanged),
                         ),
                       );
                     },
