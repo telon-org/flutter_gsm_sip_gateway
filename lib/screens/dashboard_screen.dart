@@ -1,197 +1,644 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../models/gateway_status.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../providers/dashboard_provider.dart';
 import '../providers/gateway_provider.dart';
 import '../widgets/status_card.dart';
-import '../widgets/call_controls.dart';
-import '../widgets/recent_logs.dart';
+import '../widgets/line_card.dart';
+import '../widgets/stats_card.dart';
+import '../widgets/active_call_card.dart';
+import '../widgets/sip_status_card.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _fadeController;
+  late AnimationController _slideController;
+  late Animation<double> _fadeAnimation;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 800),
+      vsync: this,
+    );
+    _slideController = AnimationController(
+      duration: const Duration(milliseconds: 600),
+      vsync: this,
+    );
+
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _fadeController,
+      curve: Curves.easeInOut,
+    ));
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 0.3),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _slideController,
+      curve: Curves.easeOutCubic,
+    ));
+
+    _fadeController.forward();
+    _slideController.forward();
+
+    // Initialize dashboard data
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+      dashboardProvider.initialize();
+    });
+  }
+
+  @override
+  void dispose() {
+    _fadeController.dispose();
+    _slideController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A1A1A),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF2A2A2A),
-        elevation: 0,
-        title: Text(
-          AppLocalizations.of(context)?.appTitle ?? 'GSM-SIP Gateway',
-          style: GoogleFonts.poppins(
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
+      backgroundColor: const Color(0xFF0A0A0A),
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildAppBar(),
+            Expanded(
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  final dashboardProvider = Provider.of<DashboardProvider>(context, listen: false);
+                  await dashboardProvider.refresh();
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: const EdgeInsets.all(16),
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildQuickStats(),
+                          const SizedBox(height: 24),
+                          _buildActiveCalls(),
+                          const SizedBox(height: 24),
+                          _buildLinesSection(),
+                          const SizedBox(height: 24),
+                          _buildSipStatus(),
+                          const SizedBox(height: 24),
+                          _buildConnectionStats(),
+                          const SizedBox(height: 100), // Bottom padding
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings, color: Colors.white),
-            onPressed: () {
-              Navigator.pushNamed(context, '/settings');
-            },
+      ),
+      floatingActionButton: _buildFloatingActionButton(),
+      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+
+  Widget _buildAppBar() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
-      body: Consumer<GatewayProvider>(
-        builder: (context, provider, child) {
-          final status = provider.status;
-          
-          return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.blue.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              Icons.router,
+              color: Colors.blue[400],
+              size: 28,
+            ),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Status Cards
-                Row(
-                  children: [
-                    Expanded(
-                      child: StatusCard(
-                        title: AppLocalizations.of(context)?.gatewayStatus ?? 'Gateway Status',
-                        status: status.statusText,
-                        icon: _getStatusIcon(status.state),
-                        color: _getStatusColor(status.state),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: StatusCard(
-                        title: AppLocalizations.of(context)?.sipConnection ?? 'SIP Connection',
-                        status: status.isRegistered ? (AppLocalizations.of(context)?.registered ?? 'Registered') : (AppLocalizations.of(context)?.disconnected ?? 'Disconnected'),
-                        icon: status.isRegistered ? Icons.check_circle : Icons.error,
-                        color: status.isRegistered ? Colors.green : Colors.red,
-                      ),
-                    ),
-                  ],
+                Text(
+                  AppLocalizations.of(context)?.appTitle ?? 'GSM-SIP Gateway',
+                  style: GoogleFonts.poppins(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
                 ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: StatusCard(
-                        title: AppLocalizations.of(context)?.gsmConnection ?? 'GSM Connection',
-                        status: status.isConnected ? (AppLocalizations.of(context)?.connected ?? 'Connected') : (AppLocalizations.of(context)?.disconnected ?? 'Disconnected'),
-                        icon: status.isConnected ? Icons.phone_android : Icons.phone_disabled,
-                        color: status.isConnected ? Colors.green : Colors.orange,
+                const SizedBox(height: 4),
+                Consumer<DashboardProvider>(
+                  builder: (context, provider, child) {
+                    return Text(
+                      '${provider.activeLinesCount} active lines • ${provider.activeCallsCount} calls',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: Colors.grey[400],
                       ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: StatusCard(
-                        title: AppLocalizations.of(context)?.activeCalls ?? 'Active Calls',
-                        status: status.currentCall != null ? (AppLocalizations.of(context)?.oneActive ?? '1 Active') : (AppLocalizations.of(context)?.noCalls ?? 'No Calls'),
-                        icon: status.currentCall != null ? Icons.call : Icons.call_end,
-                        color: status.currentCall != null ? Colors.blue : Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 24),
-
-                // Control Buttons
-                CallControls(
-                  isRunning: status.isRunning,
-                  hasActiveCall: status.currentCall != null,
-                  onStart: () => provider.startGateway(),
-                  onStop: () => provider.stopGateway(),
-                  onEndCall: () => provider.endCall(),
-                ),
-                const SizedBox(height: 24),
-
-                // Recent Logs
-                RecentLogs(
-                  logs: provider.logs,
-                  onViewAll: () {
-                    Navigator.pushNamed(context, '/logs');
+                    );
                   },
                 ),
-                const SizedBox(height: 16),
-
-                // Test Buttons (for development)
-                if (status.isRunning) ...[
-                  const Divider(color: Colors.grey),
-                  const SizedBox(height: 16),
-                  Text(
-                    AppLocalizations.of(context)?.testControls ?? 'Test Controls',
-                    style: GoogleFonts.poppins(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () => provider.simulateSipCall('50015'),
-                          icon: const Icon(Icons.call_received),
-                          label: Text(AppLocalizations.of(context)?.testSipCall ?? 'Test SIP Call'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green[600],
-                            foregroundColor: Colors.white,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () => provider.simulateGsmCall('+1234567890', CallDirection.outgoing),
-                          icon: const Icon(Icons.call_made),
-                          label: Text(AppLocalizations.of(context)?.testGsmCall ?? 'Test GSM Call'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue[600],
-                            foregroundColor: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
               ],
             ),
-          );
-        },
+          ),
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
+            icon: Icon(
+              Icons.settings,
+              color: Colors.grey[400],
+              size: 24,
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  IconData _getStatusIcon(GatewayState state) {
-    switch (state) {
-      case GatewayState.stopped:
-        return Icons.stop_circle;
-      case GatewayState.starting:
-        return Icons.play_circle_outline;
-      case GatewayState.running:
-        return Icons.play_circle;
-      case GatewayState.error:
-        return Icons.error;
-      case GatewayState.connecting:
-        return Icons.sync;
-      case GatewayState.registered:
-        return Icons.check_circle;
-      case GatewayState.callInProgress:
-        return Icons.call;
-    }
+  Widget _buildQuickStats() {
+    return Consumer<DashboardProvider>(
+      builder: (context, provider, child) {
+        return Row(
+          children: [
+            Expanded(
+              child: _buildQuickStatCard(
+                icon: Icons.phone,
+                title: 'Active Lines',
+                value: '${provider.activeLinesCount}',
+                color: Colors.green,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildQuickStatCard(
+                icon: Icons.call,
+                title: 'Active Calls',
+                value: '${provider.activeCallsCount}',
+                color: Colors.orange,
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: _buildQuickStatCard(
+                icon: Icons.account_balance_wallet,
+                title: 'Total Balance',
+                value: '\$${provider.totalBalance.toStringAsFixed(2)}',
+                color: Colors.blue,
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  Color _getStatusColor(GatewayState state) {
-    switch (state) {
-      case GatewayState.stopped:
-        return Colors.grey;
-      case GatewayState.starting:
-        return Colors.orange;
-      case GatewayState.running:
-        return Colors.blue;
-      case GatewayState.error:
-        return Colors.red;
-      case GatewayState.connecting:
-        return Colors.orange;
-      case GatewayState.registered:
-        return Colors.green;
-      case GatewayState.callInProgress:
-        return Colors.purple;
-    }
+  Widget _buildQuickStatCard({
+    required IconData icon,
+    required String title,
+    required String value,
+    required Color color,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: color.withOpacity(0.3),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 24,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: GoogleFonts.poppins(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontSize: 12,
+              color: Colors.grey[400],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildActiveCalls() {
+    return Consumer<DashboardProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoadingCalls) {
+          return _buildLoadingCard();
+        }
+
+        if (provider.activeCalls.isEmpty) {
+          return Container(
+            padding: const EdgeInsets.all(24),
+            decoration: BoxDecoration(
+              color: const Color(0xFF1A1A1A),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.call_end,
+                  size: 48,
+                  color: Colors.grey[600],
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'No Active Calls',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.grey[400],
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'All lines are available for incoming calls',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Colors.grey[500],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          );
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Active Calls',
+              style: GoogleFonts.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 16),
+            ...provider.activeCalls.map((call) => ActiveCallCard(call: call)),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildLinesSection() {
+    return Consumer<DashboardProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoadingLines) {
+          return _buildLoadingCard();
+        }
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Phone Lines',
+                  style: GoogleFonts.poppins(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  '${provider.activeLinesCount}/${provider.totalLinesCount}',
+                  style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    color: Colors.grey[400],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            ...provider.lines.map((line) => LineCard(line: line)),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSipStatus() {
+    return Consumer<DashboardProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoadingSip) {
+          return _buildLoadingCard();
+        }
+
+        if (provider.sipConnection == null) {
+          return Container();
+        }
+
+        return SipStatusCard(connection: provider.sipConnection!);
+      },
+    );
+  }
+
+  Widget _buildConnectionStats() {
+    return Consumer<DashboardProvider>(
+      builder: (context, provider, child) {
+        if (provider.isLoadingStats) {
+          return _buildLoadingCard();
+        }
+
+        if (provider.connectionStats == null) {
+          return Container();
+        }
+
+        return StatsCard(stats: provider.connectionStats!);
+      },
+    );
+  }
+
+  Widget _buildLoadingCard() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: const Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFloatingActionButton() {
+    return Consumer<DashboardProvider>(
+      builder: (context, provider, child) {
+        return FloatingActionButton.extended(
+          onPressed: () {
+            // Show call dialer or quick actions
+            _showQuickActions(context);
+          },
+          backgroundColor: Colors.blue[600],
+          foregroundColor: Colors.white,
+          icon: const Icon(Icons.add_call),
+          label: Text(
+            'Quick Call',
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildBottomNavigationBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      decoration: BoxDecoration(
+        color: const Color(0xFF1A1A1A),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.3),
+            blurRadius: 10,
+            offset: const Offset(0, -2),
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          _buildBottomNavItem(
+            icon: Icons.dashboard,
+            label: 'Dashboard',
+            isSelected: true,
+            onTap: () {},
+          ),
+          _buildBottomNavItem(
+            icon: Icons.analytics,
+            label: 'Analytics',
+            isSelected: false,
+            onTap: () {},
+          ),
+          _buildBottomNavItem(
+            icon: Icons.phone,
+            label: 'Lines',
+            isSelected: false,
+            onTap: () {},
+          ),
+          _buildBottomNavItem(
+            icon: Icons.settings,
+            label: 'Settings',
+            isSelected: false,
+            onTap: () => Navigator.pushNamed(context, '/settings'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBottomNavItem({
+    required IconData icon,
+    required String label,
+    required bool isSelected,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            color: isSelected ? Colors.blue[400] : Colors.grey[600],
+            size: 24,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 12,
+              color: isSelected ? Colors.blue[400] : Colors.grey[600],
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showQuickActions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: const Color(0xFF1A1A1A),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey[600],
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Quick Actions',
+              style: GoogleFonts.poppins(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildQuickActionButton(
+                    icon: Icons.call,
+                    label: 'Make Call',
+                    onTap: () {
+                      Navigator.pop(context);
+                      // TODO: Implement call dialer
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildQuickActionButton(
+                    icon: Icons.refresh,
+                    label: 'Refresh',
+                    onTap: () {
+                      Navigator.pop(context);
+                      final provider = Provider.of<DashboardProvider>(context, listen: false);
+                      provider.refresh();
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildQuickActionButton(
+                    icon: Icons.analytics,
+                    label: 'Analytics',
+                    onTap: () {
+                      Navigator.pop(context);
+                      // TODO: Navigate to analytics
+                    },
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: _buildQuickActionButton(
+                    icon: Icons.settings,
+                    label: 'Settings',
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 24),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildQuickActionButton({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF2A2A2A),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Colors.grey[700]!,
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              color: Colors.blue[400],
+              size: 24,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              label,
+              style: GoogleFonts.poppins(
+                fontSize: 12,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 } 

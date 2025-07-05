@@ -3,15 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../models/gateway_config.dart';
 import '../providers/gateway_provider.dart';
+import '../providers/language_provider.dart';
 import '../services/storage_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'language_screen.dart';
-
-typedef LocaleChangedCallback = void Function(String languageCode);
+import 'language_selection_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
-  final LocaleChangedCallback? onLocaleChanged;
-  const SettingsScreen({Key? key, this.onLocaleChanged}) : super(key: key);
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
   State<SettingsScreen> createState() => _SettingsScreenState();
@@ -272,7 +270,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => LanguageScreen(onLocaleChanged: widget.onLocaleChanged),
+                          builder: (context) => const LanguageSelectionScreen(),
                         ),
                       );
                     },

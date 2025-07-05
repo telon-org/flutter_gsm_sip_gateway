@@ -100,4 +100,8 @@ class StorageService {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_languageKey) ?? 'en';
   }
+
+  Future<void> setLanguage(String languageCode) async {
+    await saveLanguage(languageCode);
+  }
 } 
