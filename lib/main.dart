@@ -6,6 +6,7 @@ import 'screens/auth_screen.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/logs_screen.dart';
+import 'models/gateway_config.dart';
 
 void main() {
   runApp(const MyApp());
@@ -85,7 +86,7 @@ class _AppWrapperState extends State<AppWrapper> {
     }
   }
 
-  void _onAuthenticated() {
+  void _onAuthenticated(GatewayConfig config) {
     setState(() {
       _isAuthenticated = true;
     });

@@ -58,7 +58,7 @@ dependencies:
   http: ^1.2.1
   
   # Background tasks
-  workmanager: ^0.5.2
+  workmanager: ^0.8.0
 
 dev_dependencies:
   flutter_test:
