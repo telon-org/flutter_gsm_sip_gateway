@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecentLogs extends StatelessWidget {
   final List<String> logs;
@@ -32,7 +33,7 @@ class RecentLogs extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Recent Logs',
+                AppLocalizations.of(context)?.recentLogs ?? 'Recent Logs',
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -42,7 +43,7 @@ class RecentLogs extends StatelessWidget {
               TextButton(
                 onPressed: onViewAll,
                 child: Text(
-                  'View All',
+                  AppLocalizations.of(context)?.viewAll ?? 'View All',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     color: Colors.blue[400],
@@ -58,7 +59,7 @@ class RecentLogs extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: Center(
                 child: Text(
-                  'No logs available',
+                  AppLocalizations.of(context)?.noLogsAvailable ?? 'No logs available',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     color: Colors.grey[400],

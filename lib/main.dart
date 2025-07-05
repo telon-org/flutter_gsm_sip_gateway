@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'providers/gateway_provider.dart';
@@ -7,13 +8,35 @@ import 'screens/dashboard_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/logs_screen.dart';
 import 'models/gateway_config.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String _currentLanguage = 'en';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadLanguage();
+  }
+
+  Future<void> _loadLanguage() async {
+    final storage = StorageService();
+    final language = await storage.getLanguage();
+    setState(() {
+      _currentLanguage = language;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +46,39 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'GSM-SIP Gateway',
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        locale: Locale(_currentLanguage),
+        supportedLocales: const [
+          Locale('en'), // English
+          Locale('ru'), // Russian
+          Locale('es'), // Spanish
+          Locale('fr'), // French
+          Locale('de'), // German
+          Locale('zh'), // Chinese
+          Locale('ja'), // Japanese
+          Locale('ko'), // Korean
+          Locale('ar'), // Arabic
+          Locale('pt'), // Portuguese
+          Locale('it'), // Italian
+          Locale('th'), // Thai
+          Locale('tg'), // Tajik
+          Locale('az'), // Azerbaijani
+          Locale('km'), // Khmer
+          Locale('lo'), // Lao
+          Locale('my'), // Myanmar
+          Locale('ms'), // Malay
+          Locale('sw'), // Swahili (Kenyan/Tanzanian)
+          Locale('zu'), // Zulu (South African)
+          Locale('af'), // Afrikaans (South African)
+          Locale('yo'), // Yoruba (Nigerian)
+          Locale('ig'), // Igbo (Nigerian)
+          Locale('ha'), // Hausa (Nigerian/West African)
+        ],
         theme: ThemeData(
           primarySwatch: Colors.blue,
           brightness: Brightness.dark,
@@ -108,7 +164,7 @@ class _AppWrapperState extends State<AppWrapper> {
               ),
               const SizedBox(height: 24),
               Text(
-                'GSM-SIP Gateway',
+                AppLocalizations.of(context)?.appTitle ?? 'GSM-SIP Gateway',
                 style: GoogleFonts.poppins(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,

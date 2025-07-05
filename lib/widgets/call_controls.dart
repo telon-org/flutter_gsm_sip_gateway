@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CallControls extends StatelessWidget {
   final bool isRunning;
@@ -32,7 +33,7 @@ class CallControls extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Gateway Controls',
+            AppLocalizations.of(context)?.gatewayControls ?? 'Gateway Controls',
             style: GoogleFonts.poppins(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -52,7 +53,7 @@ class CallControls extends StatelessWidget {
                 size: 24,
               ),
               label: Text(
-                isRunning ? 'Stop Gateway' : 'Start Gateway',
+                isRunning ? (AppLocalizations.of(context)?.stopGateway ?? 'Stop Gateway') : (AppLocalizations.of(context)?.startGateway ?? 'Start Gateway'),
                 style: GoogleFonts.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
@@ -78,7 +79,7 @@ class CallControls extends StatelessWidget {
                 onPressed: onEndCall,
                 icon: const Icon(Icons.call_end, color: Colors.red),
                 label: Text(
-                  'End Call',
+                  AppLocalizations.of(context)?.endCall ?? 'End Call',
                   style: GoogleFonts.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,

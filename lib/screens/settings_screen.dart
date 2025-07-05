@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import '../models/gateway_config.dart';
 import '../providers/gateway_provider.dart';
 import '../services/storage_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'language_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -103,7 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: const Color(0xFF2A2A2A),
         elevation: 0,
         title: Text(
-          'Settings',
+          AppLocalizations.of(context)?.settings ?? 'Settings',
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -226,6 +228,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       setState(() {
                         _rememberCredentials = value;
                       });
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(height: 24),
+
+              // Language Section
+              _buildSection(
+                title: 'Language',
+                icon: Icons.language,
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.zero,
+                    leading: Icon(
+                      Icons.language,
+                      color: Colors.blue[400],
+                    ),
+                    title: Text(
+                      'Change Language',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                    subtitle: Text(
+                      'Select your preferred language',
+                      style: GoogleFonts.poppins(
+                        fontSize: 12,
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                    trailing: const Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.grey,
+                      size: 16,
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LanguageScreen(),
+                        ),
+                      );
                     },
                   ),
                 ],

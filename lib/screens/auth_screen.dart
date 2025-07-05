@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/gateway_config.dart';
 import '../services/storage_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AuthScreen extends StatefulWidget {
   final Function(GatewayConfig) onAuthenticated;
@@ -113,7 +114,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const SizedBox(height: 24),
                 Text(
-                  'GSM-SIP Gateway',
+                  AppLocalizations.of(context)?.appTitle ?? 'GSM-SIP Gateway',
                   style: GoogleFonts.poppins(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
@@ -123,7 +124,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Configure your SIP credentials',
+                  AppLocalizations.of(context)?.configureSipCredentials ?? 'Configure your SIP credentials',
                   style: GoogleFonts.poppins(
                     fontSize: 16,
                     color: Colors.grey[400],
@@ -135,11 +136,11 @@ class _AuthScreenState extends State<AuthScreen> {
                 // SIP Username
                 _buildTextField(
                   controller: _usernameController,
-                  label: 'SIP Username',
+                  label: AppLocalizations.of(context)?.sipUsername ?? 'SIP Username',
                   icon: Icons.person,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter SIP username';
+                      return AppLocalizations.of(context)?.pleaseEnterSipUsername ?? 'Please enter SIP username';
                     }
                     return null;
                   },
@@ -149,12 +150,12 @@ class _AuthScreenState extends State<AuthScreen> {
                 // SIP Password
                 _buildTextField(
                   controller: _passwordController,
-                  label: 'SIP Password',
+                  label: AppLocalizations.of(context)?.sipPassword ?? 'SIP Password',
                   icon: Icons.lock,
                   isPassword: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter SIP password';
+                      return AppLocalizations.of(context)?.pleaseEnterSipPassword ?? 'Please enter SIP password';
                     }
                     return null;
                   },
@@ -164,11 +165,11 @@ class _AuthScreenState extends State<AuthScreen> {
                 // SIP Server
                 _buildTextField(
                   controller: _serverController,
-                  label: 'SIP Server',
+                  label: AppLocalizations.of(context)?.sipServer ?? 'SIP Server',
                   icon: Icons.dns,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter SIP server';
+                      return AppLocalizations.of(context)?.pleaseEnterSipServer ?? 'Please enter SIP server';
                     }
                     return null;
                   },
@@ -178,16 +179,16 @@ class _AuthScreenState extends State<AuthScreen> {
                 // SIP Port
                 _buildTextField(
                   controller: _portController,
-                  label: 'SIP Port',
+                  label: AppLocalizations.of(context)?.sipPort ?? 'SIP Port',
                   icon: Icons.settings_ethernet,
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Please enter SIP port';
+                      return AppLocalizations.of(context)?.pleaseEnterSipPort ?? 'Please enter SIP port';
                     }
                     final port = int.tryParse(value);
                     if (port == null || port < 1 || port > 65535) {
-                      return 'Please enter a valid port number';
+                      return AppLocalizations.of(context)?.pleaseEnterValidPort ?? 'Please enter a valid port number';
                     }
                     return null;
                   },
@@ -208,7 +209,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     ),
                     Expanded(
                       child: Text(
-                        'Remember credentials and auto-login',
+                        AppLocalizations.of(context)?.rememberCredentials ?? 'Remember credentials and auto-login',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           color: Colors.grey[300],
@@ -240,7 +241,7 @@ class _AuthScreenState extends State<AuthScreen> {
                           ),
                         )
                       : Text(
-                          'Connect',
+                          AppLocalizations.of(context)?.connect ?? 'Connect',
                           style: GoogleFonts.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,

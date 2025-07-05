@@ -6,6 +6,7 @@ import '../providers/gateway_provider.dart';
 import '../widgets/status_card.dart';
 import '../widgets/call_controls.dart';
 import '../widgets/recent_logs.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class DashboardScreen extends StatelessWidget {
         backgroundColor: const Color(0xFF2A2A2A),
         elevation: 0,
         title: Text(
-          'GSM-SIP Gateway',
+          AppLocalizations.of(context)?.appTitle ?? 'GSM-SIP Gateway',
           style: GoogleFonts.poppins(
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -47,7 +48,7 @@ class DashboardScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: StatusCard(
-                        title: 'Gateway Status',
+                        title: AppLocalizations.of(context)?.gatewayStatus ?? 'Gateway Status',
                         status: status.statusText,
                         icon: _getStatusIcon(status.state),
                         color: _getStatusColor(status.state),
@@ -56,8 +57,8 @@ class DashboardScreen extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: StatusCard(
-                        title: 'SIP Connection',
-                        status: status.isRegistered ? 'Registered' : 'Disconnected',
+                        title: AppLocalizations.of(context)?.sipConnection ?? 'SIP Connection',
+                        status: status.isRegistered ? (AppLocalizations.of(context)?.registered ?? 'Registered') : (AppLocalizations.of(context)?.disconnected ?? 'Disconnected'),
                         icon: status.isRegistered ? Icons.check_circle : Icons.error,
                         color: status.isRegistered ? Colors.green : Colors.red,
                       ),
@@ -69,8 +70,8 @@ class DashboardScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: StatusCard(
-                        title: 'GSM Connection',
-                        status: status.isConnected ? 'Connected' : 'Disconnected',
+                        title: AppLocalizations.of(context)?.gsmConnection ?? 'GSM Connection',
+                        status: status.isConnected ? (AppLocalizations.of(context)?.connected ?? 'Connected') : (AppLocalizations.of(context)?.disconnected ?? 'Disconnected'),
                         icon: status.isConnected ? Icons.phone_android : Icons.phone_disabled,
                         color: status.isConnected ? Colors.green : Colors.orange,
                       ),
@@ -78,8 +79,8 @@ class DashboardScreen extends StatelessWidget {
                     const SizedBox(width: 16),
                     Expanded(
                       child: StatusCard(
-                        title: 'Active Calls',
-                        status: status.currentCall != null ? '1 Active' : 'No Calls',
+                        title: AppLocalizations.of(context)?.activeCalls ?? 'Active Calls',
+                        status: status.currentCall != null ? (AppLocalizations.of(context)?.oneActive ?? '1 Active') : (AppLocalizations.of(context)?.noCalls ?? 'No Calls'),
                         icon: status.currentCall != null ? Icons.call : Icons.call_end,
                         color: status.currentCall != null ? Colors.blue : Colors.grey,
                       ),
@@ -112,7 +113,7 @@ class DashboardScreen extends StatelessWidget {
                   const Divider(color: Colors.grey),
                   const SizedBox(height: 16),
                   Text(
-                    'Test Controls',
+                    AppLocalizations.of(context)?.testControls ?? 'Test Controls',
                     style: GoogleFonts.poppins(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,
@@ -126,7 +127,7 @@ class DashboardScreen extends StatelessWidget {
                         child: ElevatedButton.icon(
                           onPressed: () => provider.simulateSipCall('50015'),
                           icon: const Icon(Icons.call_received),
-                          label: const Text('Test SIP Call'),
+                          label: Text(AppLocalizations.of(context)?.testSipCall ?? 'Test SIP Call'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green[600],
                             foregroundColor: Colors.white,
@@ -138,7 +139,7 @@ class DashboardScreen extends StatelessWidget {
                         child: ElevatedButton.icon(
                           onPressed: () => provider.simulateGsmCall('+1234567890', CallDirection.outgoing),
                           icon: const Icon(Icons.call_made),
-                          label: const Text('Test GSM Call'),
+                          label: Text(AppLocalizations.of(context)?.testGsmCall ?? 'Test GSM Call'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue[600],
                             foregroundColor: Colors.white,

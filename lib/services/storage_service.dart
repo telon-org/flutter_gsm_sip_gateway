@@ -11,6 +11,7 @@ class StorageService {
   static const String _isFirstRunKey = 'is_first_run';
   static const String _autoLoginKey = 'auto_login';
   static const String _logsKey = 'gateway_logs';
+  static const String _languageKey = 'app_language';
 
   Future<void> saveConfig(GatewayConfig config) async {
     final prefs = await SharedPreferences.getInstance();
@@ -88,5 +89,15 @@ class StorageService {
   Future<void> clearAllData() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
+  }
+
+  Future<void> saveLanguage(String languageCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_languageKey, languageCode);
+  }
+
+  Future<String> getLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_languageKey) ?? 'en';
   }
 } 
