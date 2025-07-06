@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import 'package:provider/provider.dart';
 import '../providers/gateway_provider.dart';
 
@@ -70,14 +70,14 @@ class _LogsScreenState extends State<LogsScreen> {
         backgroundColor: const Color(0xFF2A2A2A),
         title: Text(
           'Clear Logs',
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             color: Colors.white,
             fontWeight: FontWeight.w600,
           ),
         ),
         content: Text(
           'Are you sure you want to clear all logs? This action cannot be undone.',
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             color: Colors.grey[300],
           ),
         ),
@@ -86,7 +86,7 @@ class _LogsScreenState extends State<LogsScreen> {
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               'Cancel',
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 color: Colors.grey[400],
               ),
             ),
@@ -99,7 +99,7 @@ class _LogsScreenState extends State<LogsScreen> {
             ),
             child: Text(
               'Clear',
-              style: GoogleFonts.poppins(),
+              style: AppTextStyles.poppins(),
             ),
           ),
         ],
@@ -139,7 +139,7 @@ class _LogsScreenState extends State<LogsScreen> {
         elevation: 0,
         title: Text(
           'Gateway Logs',
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
@@ -167,13 +167,13 @@ class _LogsScreenState extends State<LogsScreen> {
             child: TextField(
               controller: _searchController,
               onChanged: _filterLogs,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 fontSize: 16,
                 color: Colors.white,
               ),
               decoration: InputDecoration(
                 hintText: 'Search logs...',
-                hintStyle: GoogleFonts.poppins(
+                hintStyle: AppTextStyles.poppins(
                   color: Colors.grey[400],
                 ),
                 prefixIcon: const Icon(
@@ -223,7 +223,7 @@ class _LogsScreenState extends State<LogsScreen> {
                             const SizedBox(height: 16),
                             Text(
                               'No logs available',
-                              style: GoogleFonts.poppins(
+                              style: AppTextStyles.poppins(
                                 fontSize: 18,
                                 color: Colors.grey[400],
                               ),
@@ -231,7 +231,7 @@ class _LogsScreenState extends State<LogsScreen> {
                             const SizedBox(height: 8),
                             Text(
                               'Gateway logs will appear here',
-                              style: GoogleFonts.poppins(
+                              style: AppTextStyles.poppins(
                                 fontSize: 14,
                                 color: Colors.grey[500],
                               ),
@@ -302,7 +302,7 @@ class _LogsScreenState extends State<LogsScreen> {
               children: [
                 Text(
                   timestamp,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 12,
                     color: Colors.grey[500],
                   ),
@@ -310,7 +310,7 @@ class _LogsScreenState extends State<LogsScreen> {
                 const SizedBox(height: 4),
                 Text(
                   message,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 13,
                     color: logColor,
                   ),

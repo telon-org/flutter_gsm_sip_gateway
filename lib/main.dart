@@ -8,6 +8,10 @@ import 'providers/language_provider.dart';
 import 'screens/dashboard_screen.dart';
 import 'screens/settings_screen.dart';
 import 'screens/language_selection_screen.dart';
+import 'screens/info_screen.dart';
+import 'screens/sms_screen.dart';
+import 'screens/analytics_screen.dart';
+import 'screens/lines_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -101,6 +105,10 @@ class MyApp extends StatelessWidget {
               '/': (context) => const DashboardScreen(),
               '/settings': (context) => const SettingsScreen(),
               '/language': (context) => const LanguageSelectionScreen(),
+              '/info': (context) => const InfoScreen(),
+              '/sms': (context) => const SmsScreen(),
+              '/analytics': (context) => const AnalyticsScreen(),
+              '/lines': (context) => const LinesScreen(),
             },
           );
         },

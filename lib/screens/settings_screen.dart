@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import 'package:provider/provider.dart';
 import '../models/gateway_config.dart';
 import '../providers/gateway_provider.dart';
@@ -107,7 +107,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0,
         title: Text(
           AppLocalizations.of(context)?.settings ?? 'Settings',
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
@@ -248,7 +248,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     title: Text(
                       'Change Language',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -256,7 +256,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                     subtitle: Text(
                       'Select your preferred language',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 12,
                         color: Colors.grey[400],
                       ),
@@ -301,7 +301,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       )
                     : Text(
                         'Save Settings',
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.poppins(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -342,7 +342,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(width: 8),
               Text(
                 title,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.poppins(
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
@@ -370,13 +370,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
       obscureText: isPassword,
       keyboardType: keyboardType,
       validator: validator,
-      style: GoogleFonts.poppins(
+      style: AppTextStyles.poppins(
         fontSize: 16,
         color: Colors.white,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.poppins(
+        labelStyle: AppTextStyles.poppins(
           color: Colors.grey[400],
         ),
         prefixIcon: Icon(
@@ -430,7 +430,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Text(
                   title,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -439,7 +439,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 12,
                     color: Colors.grey[400],
                   ),

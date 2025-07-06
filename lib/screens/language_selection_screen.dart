@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import 'package:provider/provider.dart';
 import '../providers/language_provider.dart';
 
@@ -52,7 +52,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
         elevation: 0,
         title: Text(
           'Language',
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
@@ -83,7 +83,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   ),
                   title: Text(
                     languageName,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
@@ -91,7 +91,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
                   ),
                   subtitle: Text(
                     languageCode.toUpperCase(),
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.poppins(
                       fontSize: 14,
                       color: Colors.grey[400],
                     ),

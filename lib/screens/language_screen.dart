@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../services/storage_service.dart';
 
@@ -85,7 +85,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
         elevation: 0,
         title: Text(
           'Language',
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
@@ -113,7 +113,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
               ),
               title: Text(
                 language['native']!,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,
@@ -121,7 +121,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
               ),
               subtitle: Text(
                 language['name']!,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.poppins(
                   fontSize: 14,
                   color: Colors.grey[400],
                 ),

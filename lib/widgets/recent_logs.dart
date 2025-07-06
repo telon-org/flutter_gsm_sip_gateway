@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RecentLogs extends StatelessWidget {
@@ -34,7 +34,7 @@ class RecentLogs extends StatelessWidget {
             children: [
               Text(
                 AppLocalizations.of(context)?.recentLogs ?? 'Recent Logs',
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.poppins(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: Colors.white,
@@ -44,7 +44,7 @@ class RecentLogs extends StatelessWidget {
                 onPressed: onViewAll,
                 child: Text(
                   AppLocalizations.of(context)?.viewAll ?? 'View All',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 14,
                     color: Colors.blue[400],
                   ),
@@ -60,7 +60,7 @@ class RecentLogs extends StatelessWidget {
               child: Center(
                 child: Text(
                   AppLocalizations.of(context)?.noLogsAvailable ?? 'No logs available',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 14,
                     color: Colors.grey[400],
                   ),
@@ -94,7 +94,7 @@ class RecentLogs extends StatelessWidget {
         children: [
           Text(
             timestamp,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 12,
               color: Colors.grey[500],
             ),
@@ -102,7 +102,7 @@ class RecentLogs extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             message,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 13,
               color: Colors.white,
             ),

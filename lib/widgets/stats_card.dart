@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import '../models/connection_stats.dart';
 
 class StatsCard extends StatelessWidget {
@@ -46,7 +46,7 @@ class StatsCard extends StatelessWidget {
                   children: [
                     Text(
                       'Connection Statistics',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -55,7 +55,7 @@ class StatsCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       'Quality metrics and performance',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 12,
                         color: Colors.grey[400],
                       ),
@@ -145,7 +145,7 @@ class StatsCard extends StatelessWidget {
               children: [
                 Text(
                   'Call Summary',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
@@ -241,7 +241,7 @@ class StatsCard extends StatelessWidget {
               const SizedBox(width: 4),
               Text(
                 title,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.poppins(
                   fontSize: 10,
                   color: Colors.grey[400],
                 ),
@@ -251,7 +251,7 @@ class StatsCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             value,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: color,
@@ -260,7 +260,7 @@ class StatsCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             subtitle,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 8,
               color: Colors.grey[500],
             ),
@@ -290,7 +290,7 @@ class StatsCard extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 fontSize: 10,
                 color: Colors.grey[400],
               ),
@@ -300,7 +300,7 @@ class StatsCard extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           value,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             fontSize: 12,
             fontWeight: FontWeight.bold,
             color: color,

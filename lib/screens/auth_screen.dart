@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import '../models/gateway_config.dart';
 import '../services/storage_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -115,7 +115,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(height: 24),
                 Text(
                   AppLocalizations.of(context)?.appTitle ?? 'GSM-SIP Gateway',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -125,7 +125,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 const SizedBox(height: 8),
                 Text(
                   AppLocalizations.of(context)?.configureSipCredentials ?? 'Configure your SIP credentials',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 16,
                     color: Colors.grey[400],
                   ),
@@ -210,7 +210,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     Expanded(
                       child: Text(
                         AppLocalizations.of(context)?.rememberCredentials ?? 'Remember credentials and auto-login',
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.poppins(
                           fontSize: 14,
                           color: Colors.grey[300],
                         ),
@@ -242,7 +242,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         )
                       : Text(
                           AppLocalizations.of(context)?.connect ?? 'Connect',
-                          style: GoogleFonts.poppins(
+                          style: AppTextStyles.poppins(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
                           ),
@@ -269,13 +269,13 @@ class _AuthScreenState extends State<AuthScreen> {
       obscureText: isPassword,
       keyboardType: keyboardType,
       validator: validator,
-      style: GoogleFonts.poppins(
+      style: AppTextStyles.poppins(
         fontSize: 16,
         color: Colors.white,
       ),
       decoration: InputDecoration(
         labelText: label,
-        labelStyle: GoogleFonts.poppins(
+        labelStyle: AppTextStyles.poppins(
           color: Colors.grey[400],
         ),
         prefixIcon: Icon(

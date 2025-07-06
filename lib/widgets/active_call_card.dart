@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import '../models/active_call.dart';
 
 class ActiveCallCard extends StatefulWidget {
@@ -94,9 +94,8 @@ class _ActiveCallCardState extends State<ActiveCallCard>
                   children: [
                     Text(
                       _getDirectionText(widget.call.direction),
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppinsSemiBold(
                         fontSize: 14,
-                        fontWeight: FontWeight.w600,
                         color: Colors.orange,
                       ),
                     ),
@@ -105,9 +104,8 @@ class _ActiveCallCardState extends State<ActiveCallCard>
                       widget.call.direction == 'incoming' 
                           ? widget.call.fromNumber 
                           : widget.call.toNumber,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppinsBold(
                         fontSize: 16,
-                        fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
@@ -119,16 +117,15 @@ class _ActiveCallCardState extends State<ActiveCallCard>
                 children: [
                   Text(
                     _formatDuration(widget.call.duration),
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.poppinsBold(
                       fontSize: 18,
-                      fontWeight: FontWeight.bold,
                       color: Colors.white,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     'Duration',
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.poppins(
                       fontSize: 10,
                       color: Colors.grey[500],
                     ),
@@ -239,7 +236,7 @@ class _ActiveCallCardState extends State<ActiveCallCard>
         children: [
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 10,
               color: Colors.grey[400],
             ),
@@ -247,9 +244,8 @@ class _ActiveCallCardState extends State<ActiveCallCard>
           const SizedBox(height: 4),
           Text(
             '${value.toStringAsFixed(1)}${unit ?? ''}',
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppinsBold(
               fontSize: 12,
-              fontWeight: FontWeight.bold,
               color: color,
             ),
           ),
@@ -286,10 +282,9 @@ class _ActiveCallCardState extends State<ActiveCallCard>
             const SizedBox(height: 4),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppinsMedium(
                 fontSize: 8,
                 color: color,
-                fontWeight: FontWeight.w500,
               ),
               textAlign: TextAlign.center,
             ),

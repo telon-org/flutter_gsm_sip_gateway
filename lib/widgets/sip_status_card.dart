@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import '../models/sip_connection.dart';
 
 class SipStatusCard extends StatelessWidget {
@@ -46,7 +46,7 @@ class SipStatusCard extends StatelessWidget {
                   children: [
                     Text(
                       'SIP Connection',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -55,7 +55,7 @@ class SipStatusCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       _getStatusText(connection.status),
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 12,
                         color: _getStatusColor(connection.status),
                         fontWeight: FontWeight.w500,
@@ -77,7 +77,7 @@ class SipStatusCard extends StatelessWidget {
                   ),
                   child: Text(
                     'Registered',
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.poppins(
                       fontSize: 10,
                       color: Colors.green,
                       fontWeight: FontWeight.w500,
@@ -117,7 +117,7 @@ class SipStatusCard extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'Connection Quality',
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Colors.white,
@@ -182,7 +182,7 @@ class SipStatusCard extends StatelessWidget {
           const SizedBox(height: 16),
           Text(
             'Codecs',
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: Colors.white,
@@ -250,7 +250,7 @@ class SipStatusCard extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 fontSize: 10,
                 color: Colors.grey[500],
               ),
@@ -260,7 +260,7 @@ class SipStatusCard extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           value,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             fontSize: 12,
             color: Colors.grey[300],
             fontWeight: FontWeight.w500,
@@ -289,7 +289,7 @@ class SipStatusCard extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 10,
               color: Colors.grey[400],
             ),
@@ -297,7 +297,7 @@ class SipStatusCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             value,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 12,
               fontWeight: FontWeight.bold,
               color: color,
@@ -325,7 +325,7 @@ class SipStatusCard extends StatelessWidget {
       ),
       child: Text(
         codec,
-        style: GoogleFonts.poppins(
+        style: AppTextStyles.poppins(
           fontSize: 10,
           color: isActive ? Colors.blue : Colors.grey[400],
           fontWeight: FontWeight.w500,

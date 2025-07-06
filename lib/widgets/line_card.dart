@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import '../models/line_info.dart';
 
 class LineCard extends StatelessWidget {
@@ -47,7 +47,7 @@ class LineCard extends StatelessWidget {
                   children: [
                     Text(
                       line.phoneNumber,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -56,7 +56,7 @@ class LineCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       line.operator,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 12,
                         color: Colors.grey[400],
                       ),
@@ -69,7 +69,7 @@ class LineCard extends StatelessWidget {
                 children: [
                   Text(
                     '\$${line.balance.toStringAsFixed(2)}',
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.green[400],
@@ -78,7 +78,7 @@ class LineCard extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text(
                     line.currency,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.poppins(
                       fontSize: 10,
                       color: Colors.grey[500],
                     ),
@@ -171,7 +171,7 @@ class LineCard extends StatelessWidget {
           const SizedBox(width: 4),
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 10,
               color: color,
               fontWeight: FontWeight.w500,
@@ -200,7 +200,7 @@ class LineCard extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 fontSize: 10,
                 color: Colors.grey[500],
               ),
@@ -210,7 +210,7 @@ class LineCard extends StatelessWidget {
         const SizedBox(height: 2),
         Text(
           value,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.poppins(
             fontSize: 12,
             color: Colors.grey[300],
             fontWeight: FontWeight.w500,
@@ -234,7 +234,7 @@ class LineCard extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: GoogleFonts.poppins(
+        style: AppTextStyles.poppins(
           fontSize: 8,
           color: color,
           fontWeight: FontWeight.w500,

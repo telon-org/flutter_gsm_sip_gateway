@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../utils/text_styles.dart';
 import '../providers/dashboard_provider.dart';
 import '../providers/gateway_provider.dart';
 import '../widgets/status_card.dart';
@@ -152,7 +152,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               children: [
                 Text(
                   AppLocalizations.of(context)?.appTitle ?? 'GSM-SIP Gateway',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -163,7 +163,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                   builder: (context, provider, child) {
                     return Text(
                       '${provider.activeLinesCount} active lines • ${provider.activeCallsCount} calls',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.poppins(
                         fontSize: 14,
                         color: Colors.grey[400],
                       ),
@@ -249,7 +249,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           const SizedBox(height: 8),
           Text(
             value,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.white,
@@ -258,7 +258,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           const SizedBox(height: 4),
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 12,
               color: Colors.grey[400],
             ),
@@ -293,7 +293,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 const SizedBox(height: 16),
                 Text(
                   'No Active Calls',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.w600,
                     color: Colors.grey[400],
@@ -302,7 +302,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 const SizedBox(height: 8),
                 Text(
                   'All lines are available for incoming calls',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 14,
                     color: Colors.grey[500],
                   ),
@@ -318,7 +318,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           children: [
             Text(
               'Active Calls',
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -347,7 +347,7 @@ class _DashboardScreenState extends State<DashboardScreen>
               children: [
                 Text(
                   'Phone Lines',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -355,7 +355,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                 ),
                 Text(
                   '${provider.activeLinesCount}/${provider.totalLinesCount}',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.poppins(
                     fontSize: 14,
                     color: Colors.grey[400],
                   ),
@@ -430,7 +430,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           icon: const Icon(Icons.add_call),
           label: Text(
             'Quick Call',
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -465,19 +465,25 @@ class _DashboardScreenState extends State<DashboardScreen>
             icon: Icons.analytics,
             label: 'Analytics',
             isSelected: false,
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/analytics'),
           ),
           _buildBottomNavItem(
             icon: Icons.phone,
             label: 'Lines',
             isSelected: false,
-            onTap: () {},
+            onTap: () => Navigator.pushNamed(context, '/lines'),
           ),
           _buildBottomNavItem(
-            icon: Icons.settings,
-            label: 'Settings',
+            icon: Icons.sms,
+            label: 'SMS',
             isSelected: false,
-            onTap: () => Navigator.pushNamed(context, '/settings'),
+            onTap: () => Navigator.pushNamed(context, '/sms'),
+          ),
+          _buildBottomNavItem(
+            icon: Icons.info,
+            label: 'Info',
+            isSelected: false,
+            onTap: () => Navigator.pushNamed(context, '/info'),
           ),
         ],
       ),
@@ -503,7 +509,7 @@ class _DashboardScreenState extends State<DashboardScreen>
           const SizedBox(height: 4),
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.poppins(
               fontSize: 12,
               color: isSelected ? Colors.blue[400] : Colors.grey[600],
               fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
@@ -537,7 +543,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             const SizedBox(height: 24),
             Text(
               'Quick Actions',
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -630,7 +636,7 @@ class _DashboardScreenState extends State<DashboardScreen>
             const SizedBox(height: 8),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.poppins(
                 fontSize: 12,
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
