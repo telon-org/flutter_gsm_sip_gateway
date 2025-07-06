@@ -533,6 +533,12 @@ class _DashboardScreenState extends State<DashboardScreen>
             onTap: () => Navigator.pushNamed(context, '/sims'),
           ),
           _buildBottomNavItem(
+            icon: Icons.cell_tower,
+            label: 'BS',
+            isSelected: false,
+            onTap: () => Navigator.pushNamed(context, '/base-stations'),
+          ),
+          _buildBottomNavItem(
             icon: Icons.sms,
             label: 'SMS',
             isSelected: false,

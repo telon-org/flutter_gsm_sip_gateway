@@ -13,6 +13,7 @@ import 'screens/sms_screen.dart';
 import 'screens/analytics_screen.dart';
 import 'screens/lines_screen.dart';
 import 'screens/sims_screen.dart';
+import 'screens/base_stations_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -111,6 +112,7 @@ class MyApp extends StatelessWidget {
               '/analytics': (context) => const AnalyticsScreen(),
               '/lines': (context) => const LinesScreen(),
               '/sims': (context) => const SimsScreen(),
+              '/base-stations': (context) => const BaseStationsScreen(),
             },
           );
         },

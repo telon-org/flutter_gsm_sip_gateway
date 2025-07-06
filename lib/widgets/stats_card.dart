@@ -69,32 +69,41 @@ class StatsCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildMetricCard(
-                  title: 'ASR',
-                  value: '${stats.asr.toStringAsFixed(1)}%',
-                  subtitle: 'Answer Seizure Ratio',
-                  color: _getAsrColor(stats.asr),
-                  icon: Icons.phone_callback,
+                child: Tooltip(
+                  message: 'Answer Seizure Ratio (ASR) - Percentage of calls that are answered by the called party. Higher values indicate better call success rate.',
+                  child: _buildMetricCard(
+                    title: 'ASR',
+                    value: '${stats.asr.toStringAsFixed(1)}%',
+                    subtitle: 'Answer Seizure Ratio',
+                    color: _getAsrColor(stats.asr),
+                    icon: Icons.phone_callback,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: _buildMetricCard(
-                  title: 'ASD',
-                  value: '${stats.asd.toStringAsFixed(1)}s',
-                  subtitle: 'Average Setup Delay',
-                  color: _getAsdColor(stats.asd),
-                  icon: Icons.timer,
+                child: Tooltip(
+                  message: 'Average Setup Delay (ASD) - Average time it takes to establish a call connection. Lower values indicate faster call setup.',
+                  child: _buildMetricCard(
+                    title: 'ASD',
+                    value: '${stats.asd.toStringAsFixed(1)}s',
+                    subtitle: 'Average Setup Delay',
+                    color: _getAsdColor(stats.asd),
+                    icon: Icons.timer,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: _buildMetricCard(
-                  title: 'ACD',
-                  value: '${(stats.acd / 60).toStringAsFixed(1)}m',
-                  subtitle: 'Average Call Duration',
-                  color: Colors.green,
-                  icon: Icons.call,
+                child: Tooltip(
+                  message: 'Average Call Duration (ACD) - Average length of completed calls. Shows how long calls typically last.',
+                  child: _buildMetricCard(
+                    title: 'ACD',
+                    value: '${(stats.acd / 60).toStringAsFixed(1)}m',
+                    subtitle: 'Average Call Duration',
+                    color: Colors.green,
+                    icon: Icons.call,
+                  ),
                 ),
               ),
             ],
@@ -103,32 +112,41 @@ class StatsCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: _buildMetricCard(
-                  title: 'CDR',
-                  value: '${stats.cdr.toStringAsFixed(1)}%',
-                  subtitle: 'Call Drop Rate',
-                  color: _getCdrColor(stats.cdr),
-                  icon: Icons.call_end,
+                child: Tooltip(
+                  message: 'Call Drop Rate (CDR) - Percentage of calls that are dropped or disconnected unexpectedly. Lower values indicate better call stability.',
+                  child: _buildMetricCard(
+                    title: 'CDR',
+                    value: '${stats.cdr.toStringAsFixed(1)}%',
+                    subtitle: 'Call Drop Rate',
+                    color: _getCdrColor(stats.cdr),
+                    icon: Icons.call_end,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: _buildMetricCard(
-                  title: 'MOS',
-                  value: stats.mos.toStringAsFixed(1),
-                  subtitle: 'Mean Opinion Score',
-                  color: _getMosColor(stats.mos),
-                  icon: Icons.assessment,
+                child: Tooltip(
+                  message: 'Mean Opinion Score (MOS) - Quality rating of voice calls on a scale of 1-5. Higher values indicate better voice quality.',
+                  child: _buildMetricCard(
+                    title: 'MOS',
+                    value: stats.mos.toStringAsFixed(1),
+                    subtitle: 'Mean Opinion Score',
+                    color: _getMosColor(stats.mos),
+                    icon: Icons.assessment,
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Expanded(
-                child: _buildMetricCard(
-                  title: 'Success',
-                  value: '${stats.successRate.toStringAsFixed(1)}%',
-                  subtitle: 'Success Rate',
-                  color: _getSuccessColor(stats.successRate),
-                  icon: Icons.check_circle,
+                child: Tooltip(
+                  message: 'Success Rate - Percentage of call attempts that result in successful connections.',
+                  child: _buildMetricCard(
+                    title: 'Success',
+                    value: '${stats.successRate.toStringAsFixed(1)}%',
+                    subtitle: 'Success Rate',
+                    color: _getSuccessColor(stats.successRate),
+                    icon: Icons.check_circle,
+                  ),
                 ),
               ),
             ],
