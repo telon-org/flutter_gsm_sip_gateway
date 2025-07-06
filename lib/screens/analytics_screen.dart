@@ -175,29 +175,32 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     return Row(
       children: [
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Total Calls',
             value: '156',
             icon: Icons.call,
             color: Colors.blue,
+            tooltip: 'Total number of calls processed through the gateway',
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Incoming',
             value: '89',
             icon: Icons.call_received,
             color: Colors.green,
+            tooltip: 'Calls received from external sources (GSM/SIP)',
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Outgoing',
             value: '67',
             icon: Icons.call_made,
             color: Colors.orange,
+            tooltip: 'Calls initiated from the gateway to external destinations',
           ),
         ),
       ],
@@ -269,29 +272,32 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     return Row(
       children: [
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Avg MOS',
             value: '4.2',
             icon: Icons.signal_cellular_alt,
             color: Colors.green,
+            tooltip: 'Mean Opinion Score - Audio quality rating from 1-5 (5=excellent)',
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Latency',
             value: '45ms',
             icon: Icons.speed,
             color: Colors.blue,
+            tooltip: 'Network delay time for voice packets (lower is better)',
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Packet Loss',
             value: '0.2%',
             icon: Icons.warning,
             color: Colors.orange,
+            tooltip: 'Percentage of voice packets lost during transmission',
           ),
         ),
       ],
@@ -351,10 +357,10 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          _buildQualityDetailItem('SIP MOS', '4.3', Colors.blue),
-          _buildQualityDetailItem('GSM MOS', '4.1', Colors.green),
-          _buildQualityDetailItem('SIP Latency', '42ms', Colors.orange),
-          _buildQualityDetailItem('GSM Latency', '38ms', Colors.purple),
+          _buildQualityDetailItemWithTooltip('SIP MOS', '4.3', Colors.blue, 'Session Initiation Protocol Mean Opinion Score - VoIP call quality'),
+          _buildQualityDetailItemWithTooltip('GSM MOS', '4.1', Colors.green, 'Global System for Mobile Mean Opinion Score - Mobile call quality'),
+          _buildQualityDetailItemWithTooltip('SIP Latency', '42ms', Colors.orange, 'Network delay for VoIP calls (lower is better)'),
+          _buildQualityDetailItemWithTooltip('GSM Latency', '38ms', Colors.purple, 'Network delay for mobile calls (lower is better)'),
         ],
       ),
     );
@@ -364,29 +370,32 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     return Row(
       children: [
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Data Used',
             value: '2.4GB',
             icon: Icons.data_usage,
             color: Colors.blue,
+            tooltip: 'Total data consumed for voice calls and messaging',
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'SMS Sent',
             value: '45',
             icon: Icons.sms,
             color: Colors.green,
+            tooltip: 'Number of SMS messages sent through the gateway',
           ),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildStatCard(
+          child: _buildStatCardWithTooltip(
             title: 'Balance',
             value: '\$12.50',
             icon: Icons.account_balance_wallet,
             color: Colors.orange,
+            tooltip: 'Remaining account balance for calls and services',
           ),
         ),
       ],
@@ -446,10 +455,10 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
           ),
           const SizedBox(height: 16),
-          _buildUsageDetailItem('Voice Calls', '2.1GB', Colors.blue),
-          _buildUsageDetailItem('SMS Messages', '45', Colors.green),
-          _buildUsageDetailItem('Data Transfer', '0.3GB', Colors.orange),
-          _buildUsageDetailItem('Remaining', '\$12.50', Colors.purple),
+          _buildUsageDetailItemWithTooltip('Voice Calls', '2.1GB', Colors.blue, 'Data used for voice call transmission'),
+          _buildUsageDetailItemWithTooltip('SMS Messages', '45', Colors.green, 'Number of text messages sent/received'),
+          _buildUsageDetailItemWithTooltip('Data Transfer', '0.3GB', Colors.orange, 'General data transfer excluding voice calls'),
+          _buildUsageDetailItemWithTooltip('Remaining', '\$12.50', Colors.purple, 'Available account balance for services'),
         ],
       ),
     );
@@ -496,6 +505,55 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildStatCardWithTooltip({
+    required String title,
+    required String value,
+    required IconData icon,
+    required Color color,
+    required String tooltip,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1A1A),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: color.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              color: color,
+              size: 24,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              value,
+              style: AppTextStyles.poppinsBold(
+                fontSize: 18,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: AppTextStyles.poppins(
+                fontSize: 12,
+                color: Colors.grey[400],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -592,6 +650,35 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
     );
   }
 
+  Widget _buildQualityDetailItemWithTooltip(String label, String value, Color color, String tooltip) {
+    return Tooltip(
+      message: tooltip,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: AppTextStyles.poppins(
+                  fontSize: 14,
+                  color: Colors.grey[400],
+                ),
+              ),
+            ),
+            Text(
+              value,
+              style: AppTextStyles.poppinsBold(
+                fontSize: 14,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildUsageDetailItem(String label, String value, Color color) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -614,6 +701,35 @@ class _AnalyticsScreenState extends State<AnalyticsScreen>
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildUsageDetailItemWithTooltip(String label, String value, Color color, String tooltip) {
+    return Tooltip(
+      message: tooltip,
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: AppTextStyles.poppins(
+                  fontSize: 14,
+                  color: Colors.grey[400],
+                ),
+              ),
+            ),
+            Text(
+              value,
+              style: AppTextStyles.poppinsBold(
+                fontSize: 14,
+                color: color,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

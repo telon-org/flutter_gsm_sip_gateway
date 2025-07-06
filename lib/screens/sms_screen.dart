@@ -100,27 +100,30 @@ class _SmsScreenState extends State<SmsScreen> {
       child: Row(
         children: [
           Expanded(
-            child: _buildStatItem(
+            child: _buildStatItemWithTooltip(
               icon: Icons.inbox,
               label: 'Total SMS',
               value: '${_messages.length}',
               color: Colors.blue,
+              tooltip: 'Total number of SMS messages in the system',
             ),
           ),
           Expanded(
-            child: _buildStatItem(
+            child: _buildStatItemWithTooltip(
               icon: Icons.call_made,
               label: 'Sent',
               value: '${_messages.where((m) => m.type == SmsType.outgoing).length}',
               color: Colors.green,
+              tooltip: 'Number of SMS messages sent from the gateway',
             ),
           ),
           Expanded(
-            child: _buildStatItem(
+            child: _buildStatItemWithTooltip(
               icon: Icons.call_received,
               label: 'Received',
               value: '${_messages.where((m) => m.type == SmsType.incoming).length}',
               color: Colors.orange,
+              tooltip: 'Number of SMS messages received by the gateway',
             ),
           ),
         ],
@@ -159,6 +162,44 @@ class _SmsScreenState extends State<SmsScreen> {
           textAlign: TextAlign.center,
         ),
       ],
+    );
+  }
+
+  Widget _buildStatItemWithTooltip({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+    required String tooltip,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 24,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: AppTextStyles.poppinsBold(
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: AppTextStyles.poppins(
+              fontSize: 12,
+              color: Colors.grey[400],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 

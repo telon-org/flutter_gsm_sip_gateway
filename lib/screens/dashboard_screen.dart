@@ -192,31 +192,34 @@ class _DashboardScreenState extends State<DashboardScreen>
         return Row(
           children: [
             Expanded(
-              child: _buildQuickStatCard(
-                icon: Icons.phone,
-                title: 'Active Lines',
-                value: '${provider.activeLinesCount}',
-                color: Colors.green,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _buildQuickStatCard(
-                icon: Icons.call,
-                title: 'Active Calls',
-                value: '${provider.activeCallsCount}',
-                color: Colors.orange,
-              ),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: _buildQuickStatCard(
-                icon: Icons.account_balance_wallet,
-                title: 'Total Balance',
-                value: '\$${provider.totalBalance.toStringAsFixed(2)}',
-                color: Colors.blue,
-              ),
-            ),
+              child:           _buildQuickStatCardWithTooltip(
+            icon: Icons.phone,
+            title: 'Active Lines',
+            value: '${provider.activeLinesCount}',
+            color: Colors.green,
+            tooltip: 'Number of currently active phone lines (GSM/SIP)',
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildQuickStatCardWithTooltip(
+            icon: Icons.call,
+            title: 'Active Calls',
+            value: '${provider.activeCallsCount}',
+            color: Colors.orange,
+            tooltip: 'Number of calls currently in progress',
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: _buildQuickStatCardWithTooltip(
+            icon: Icons.account_balance_wallet,
+            title: 'Total Balance',
+            value: '\$${provider.totalBalance.toStringAsFixed(2)}',
+            color: Colors.blue,
+            tooltip: 'Total available balance across all phone lines',
+          ),
+        ),
           ],
         );
       },
@@ -265,6 +268,56 @@ class _DashboardScreenState extends State<DashboardScreen>
             textAlign: TextAlign.center,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildQuickStatCardWithTooltip({
+    required IconData icon,
+    required String title,
+    required String value,
+    required Color color,
+    required String tooltip,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1A1A1A),
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: color.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Icon(
+              icon,
+              color: color,
+              size: 24,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              value,
+              style: AppTextStyles.poppins(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: AppTextStyles.poppins(
+                fontSize: 12,
+                color: Colors.grey[400],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -115,27 +115,30 @@ class _LinesScreenState extends State<LinesScreen> {
       child: Row(
         children: [
           Expanded(
-            child: _buildStatItem(
+            child: _buildStatItemWithTooltip(
               icon: Icons.phone,
               label: 'Total Lines',
               value: '${_lines.length}',
               color: Colors.blue,
+              tooltip: 'Total number of configured phone lines',
             ),
           ),
           Expanded(
-            child: _buildStatItem(
+            child: _buildStatItemWithTooltip(
               icon: Icons.check_circle,
               label: 'Active',
               value: '$activeLines',
               color: Colors.green,
+              tooltip: 'Number of currently active phone lines',
             ),
           ),
           Expanded(
-            child: _buildStatItem(
+            child: _buildStatItemWithTooltip(
               icon: Icons.router,
               label: 'GSM/SIP',
               value: '$gsmLines/$sipLines',
               color: Colors.orange,
+              tooltip: 'GSM (mobile) and SIP (VoIP) line count',
             ),
           ),
         ],
@@ -174,6 +177,44 @@ class _LinesScreenState extends State<LinesScreen> {
           textAlign: TextAlign.center,
         ),
       ],
+    );
+  }
+
+  Widget _buildStatItemWithTooltip({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+    required String tooltip,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 24,
+          ),
+          const SizedBox(height: 8),
+          Text(
+            value,
+            style: AppTextStyles.poppinsBold(
+              fontSize: 18,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            label,
+            style: AppTextStyles.poppins(
+              fontSize: 12,
+              color: Colors.grey[400],
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
@@ -272,27 +313,30 @@ class _LinesScreenState extends State<LinesScreen> {
           Row(
             children: [
               Expanded(
-                child: _buildLineInfo(
+                child: _buildLineInfoWithTooltip(
                   icon: Icons.signal_cellular_alt,
                   label: 'Signal',
                   value: line.type == LineType.gsm ? '${line.signalStrength}%' : 'N/A',
                   color: Colors.blue,
+                  tooltip: line.type == LineType.gsm ? 'GSM signal strength (0-100%)' : 'Signal strength not applicable for SIP',
                 ),
               ),
               Expanded(
-                child: _buildLineInfo(
+                child: _buildLineInfoWithTooltip(
                   icon: Icons.account_balance_wallet,
                   label: 'Balance',
                   value: '\$${line.balance.toStringAsFixed(2)}',
                   color: Colors.orange,
+                  tooltip: 'Available balance for this phone line',
                 ),
               ),
               Expanded(
-                child: _buildLineInfo(
+                child: _buildLineInfoWithTooltip(
                   icon: Icons.call,
                   label: 'Last Call',
                   value: _formatLastCall(line.lastCall),
                   color: Colors.green,
+                  tooltip: 'Time since the last call on this line',
                 ),
               ),
             ],
@@ -388,6 +432,42 @@ class _LinesScreenState extends State<LinesScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildLineInfoWithTooltip({
+    required IconData icon,
+    required String label,
+    required String value,
+    required Color color,
+    required String tooltip,
+  }) {
+    return Tooltip(
+      message: tooltip,
+      child: Column(
+        children: [
+          Icon(
+            icon,
+            color: color,
+            size: 16,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            value,
+            style: AppTextStyles.poppinsBold(
+              fontSize: 12,
+              color: Colors.white,
+            ),
+          ),
+          Text(
+            label,
+            style: AppTextStyles.poppins(
+              fontSize: 10,
+              color: Colors.grey[400],
+            ),
+          ),
+        ],
+      ),
     );
   }
 

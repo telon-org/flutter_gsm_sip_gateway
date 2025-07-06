@@ -155,11 +155,14 @@ class _InfoScreenState extends State<InfoScreen> {
             ],
           ),
           const SizedBox(height: 16),
-          Text(
-            'Bidirectional bridge between GSM telephony and SIP protocol',
-            style: AppTextStyles.poppins(
-              fontSize: 14,
-              color: Colors.grey[300],
+          Tooltip(
+            message: 'GSM: Global System for Mobile communications\nSIP: Session Initiation Protocol for VoIP calls',
+            child: Text(
+              'Bidirectional bridge between GSM telephony and SIP protocol',
+              style: AppTextStyles.poppins(
+                fontSize: 14,
+                color: Colors.grey[300],
+              ),
             ),
           ),
         ],
@@ -293,11 +296,11 @@ class _InfoScreenState extends State<InfoScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          _buildFeatureItem('• Bidirectional call routing'),
-          _buildFeatureItem('• Real-time call monitoring'),
-          _buildFeatureItem('• Quality metrics tracking'),
-          _buildFeatureItem('• Multi-language support'),
-          _buildFeatureItem('• Advanced analytics'),
+          _buildFeatureItemWithTooltip('• Bidirectional call routing', 'Calls can flow in both directions between GSM and SIP networks'),
+          _buildFeatureItemWithTooltip('• Real-time call monitoring', 'Live tracking of active calls and their status'),
+          _buildFeatureItemWithTooltip('• Quality metrics tracking', 'Monitoring call quality using MOS, latency, and packet loss'),
+          _buildFeatureItemWithTooltip('• Multi-language support', 'Interface available in multiple languages'),
+          _buildFeatureItemWithTooltip('• Advanced analytics', 'Detailed call statistics and performance analysis'),
         ],
       ),
     );
@@ -343,6 +346,22 @@ class _InfoScreenState extends State<InfoScreen> {
         style: AppTextStyles.poppins(
           fontSize: 14,
           color: Colors.grey[300],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFeatureItemWithTooltip(String text, String tooltip) {
+    return Tooltip(
+      message: tooltip,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Text(
+          text,
+          style: AppTextStyles.poppins(
+            fontSize: 14,
+            color: Colors.grey[300],
+          ),
         ),
       ),
     );
