@@ -539,6 +539,12 @@ class _DashboardScreenState extends State<DashboardScreen>
             onTap: () => Navigator.pushNamed(context, '/base-stations'),
           ),
           _buildBottomNavItem(
+            icon: Icons.audiotrack,
+            label: 'Codecs',
+            isSelected: false,
+            onTap: () => Navigator.pushNamed(context, '/codecs'),
+          ),
+          _buildBottomNavItem(
             icon: Icons.sms,
             label: 'SMS',
             isSelected: false,
